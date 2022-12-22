@@ -1,0 +1,82 @@
+{
+  "name": "better-suitescript-modules",
+  "version": "0.1.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "upload": "node upload.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "prettier": {
+    "tabWidth": 4,
+    "useTabs": true,
+    "printWidth": 120
+  },
+  "eslintConfig": {
+    "plugins": [
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "google",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true
+    },
+    "globals": {
+      "define": "readonly",
+      "log": "readonly"
+    },
+    "ignorePatterns": [
+      "suitecloud.config.js"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "arrow-body-style": "off",
+      "prefer-arrow-callback": "off",
+      "no-sparse-arrays": "off",
+      "require-jsdoc": [
+        "error",
+        {
+          "require": {
+            "FunctionDeclaration": false,
+            "MethodDefinition": false,
+            "ClassDeclaration": false,
+            "ArrowFunctionExpression": false,
+            "FunctionExpression": false
+          }
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": [
+          "__tests__/**/*.js"
+        ],
+        "env": {
+          "es6": true,
+          "jest": true,
+          "jasmine": true
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "@oracle/suitecloud-unit-testing": "^1.2.1",
+    "eslint": "^8.29.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.3.1",
+    "node-fetch": "^3.3.0",
+    "prettier": "^2.8.1",
+    "suitescript-mocks": "github:emorris00/suitescript-mocks"
+  }
+}
