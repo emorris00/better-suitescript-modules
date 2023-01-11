@@ -4,14 +4,12 @@
  */
 define([], () => {
 	function extend(obj, func) {
-		console.log(obj);
-		console.trace();
 		const newObj = Object.create(obj);
 		const fields = func(newObj, obj);
 		Object.entries(fields).forEach(([prop, value]) => {
 			Object.defineProperty(newObj, prop, { value });
 		});
-		return Object.freeze(newObj);
+		return newObj;
 	}
 
 	function argsToOptions(args, func) {

@@ -10,11 +10,11 @@ define(["./helpers.js", "N/currentRecord"], (helpers, NcurrentRecord) => {
 			return this.convertCurrentRecord(this.__proto__.get());
 		},
 		convertCurrentRecord(currentRecord) {
-			return extend(currentRecord, {
+			return extend(currentRecord, () => ({
 				getCustomFields() {
 					return JSON.parse(this.getValue("custpage____fields") ?? "[]");
 				},
-			});
+			}));
 		},
 	}));
 });

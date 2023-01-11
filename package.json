@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "upload": "node upload.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,8 @@
       "sourceType": "module"
     },
     "env": {
-      "es6": true
+      "es6": true,
+      "node": true
     },
     "globals": {
       "define": "readonly",

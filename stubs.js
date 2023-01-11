@@ -1,5 +1,5 @@
-const modules = ["currentRecord", "runtime", "search", "ui/serverWidget"];
-const mocks = ["config"];
+const modules = ["currentRecord", "search", "ui/serverWidget"];
+const mocks = ["config", "runtime"];
 
 module.exports = [
 	...modules.map((path) => ({
@@ -8,6 +8,6 @@ module.exports = [
 	})),
 	...mocks.map((path) => ({
 		module: `BN/${path}`,
-		path: `<rootDir>/node_modules/better-suitescript-modules/mocks/${path}.js`,
+		path: `<rootDir>/node_modules/better-suitescript-modules/src/mocks/${path}.js`,
 	})),
 ];

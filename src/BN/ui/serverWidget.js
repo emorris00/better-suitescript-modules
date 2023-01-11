@@ -4,8 +4,6 @@
  */
 define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 	const { extend, argsToOptions } = helpers;
-	console.log(NserverWidget.createForm({}));
-
 	return extend(NserverWidget, (BNserverWidget) => ({
 		createForm: argsToOptions(["title", , "hideNavBar"], function (options) {
 			return BNserverWidget.convertForm(NserverWidget.createForm(options));
@@ -66,7 +64,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 									field.addSelectOption(option);
 								});
 							}
-							fields.push(field);
+							fields.push(field.id);
 							fieldsField.defaultValue = JSON.stringify(fields);
 							return field;
 						}
@@ -135,7 +133,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 				};
 			});
 			const fields = [];
-			const fieldsField = (form
+			const fieldsField = form
 				.addField({
 					id: "custpage____fields",
 					label: "Custom Fields",
@@ -143,7 +141,8 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 				})
 				.updateDisplayType({
 					displayType: NserverWidget.FieldDisplayType.HIDDEN,
-				}).defaultValue = JSON.stringify(fields));
+				});
+			fieldsField.defaultValue = JSON.stringify(fields);
 			return newForm;
 		},
 		convertField(field) {
