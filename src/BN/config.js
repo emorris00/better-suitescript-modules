@@ -2,9 +2,11 @@
  * @NApiVersion 2.1
  * @author Eric Morris
  */
-define(["N/search", "N/runtime"], (search, runtime) => {
-	return {
-		get: (name) => {
+define(["./helpers.js", "N/config", "N/search", "N/runtime"], (helpers, config, search, runtime) => {
+	const { extend } = helpers;
+
+	return extend(config, () => ({
+		get(name) {
 			const values = search
 				.create({
 					type: "customrecord_config",
@@ -20,5 +22,5 @@ define(["N/search", "N/runtime"], (search, runtime) => {
 				? values.getValue("custrecord_value")
 				: values.getValue("custrecord_sbx_value");
 		},
-	};
+	}));
 });
