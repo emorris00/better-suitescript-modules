@@ -58,7 +58,30 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 
 					let offset = getOffset();
 					while (offset > -1) {
-						const resultSlice = resultSet.getRange({ start: start + offset, end: start + offset + 1000 });
+						const resultSlice = resultSet
+							.getRange({ start: start + offset, end: start + offset + 1000 })
+							.map((row) =>
+								extend(row, () => ({
+									getValue(...args) {
+										if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
+											return row.getValue({
+												name: args[0].split(".")[1],
+												join: args[0].split(".")[0],
+											});
+										}
+										return row.getValue(...args);
+									},
+									getText(...args) {
+										if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
+											return row.getText({
+												name: args[0].split(".")[1],
+												join: args[0].split(".")[0],
+											});
+										}
+										return row.getText(...args);
+									},
+								}))
+							);
 						results.splice(start + offset, resultSlice.length, ...resultSlice);
 						if (resultSlice.length !== 1000) {
 							const offsetEnd = start + offset + resultSlice.length;

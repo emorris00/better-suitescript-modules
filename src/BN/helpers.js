@@ -5,7 +5,7 @@
 define([], () => {
 	function extend(obj, func) {
 		const newObj = Object.create(obj);
-		const fields = func(newObj, obj);
+		const fields = func(newObj);
 		Object.entries(fields).forEach(([prop, value]) => {
 			Object.defineProperty(newObj, prop, { value });
 		});
