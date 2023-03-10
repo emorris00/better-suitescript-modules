@@ -5,7 +5,7 @@ import config from "./config.mjs";
 
 await uploadFiles();
 
-async function uploadFiles(dir = "./src/BN", parentFolderId = false) {
+async function uploadFiles(dir = "./src/N-EXT", parentFolderId = false) {
 	const files = await fs.readdir(dir);
 	const folderName = dir.match(/(\w+)$/)[1];
 	let folderId = await getFolderId(folderName, parentFolderId);
