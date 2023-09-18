@@ -5,32 +5,32 @@
 define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 	const { extend, argsToOptions } = helpers;
 
-	return extend(Nsearch, (BNsearch) => ({
+	return extend(Nsearch, (NEXTsearch) => ({
 		create: argsToOptions(
 			["type", , "filters", "columns", "settings", "title", "id", "isPublic", "packageId"],
 			function (options) {
-				return BNsearch.convertSearch(Nsearch.create(options));
+				return NEXTsearch.convertSearch(Nsearch.create(options));
 			}
 		),
 		load: argsToOptions(["id", , "type"], function (options) {
-			return BNsearch.convertSearch(Nsearch.load(options));
+			return NEXTsearch.convertSearch(Nsearch.load(options));
 		}),
 		convertSearch(search) {
 			return extend(search, () => ({
 				run() {
-					return BNsearch.convertResultSet(search.run());
+					return NEXTsearch.convertResultSet(search.run());
 				},
 			}));
 		},
 		convertResultSet(resultSet) {
 			let results = [];
 			let total = null;
-			return extend(resultSet, () => ({
+			return extend(resultSet, (self) => ({
 				each(callback) {
 					let slice = [];
 					let offset = 0;
 					do {
-						slice = this.getRange(offset, offset * 1000);
+						slice = self.getRange(offset, offset * 1000);
 						for (let i = 0; i < slice.length; i++) {
 							if (callback(slice[i], offset + i) === false) {
 								return;
@@ -40,10 +40,10 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 					} while (slice.length === 1000);
 				},
 				map(callback) {
-					return this.getAll().map((...args) => callback(...args));
+					return self.getAll().map((...args) => callback(...args));
 				},
 				getAll() {
-					return this.getRange(0, 99999999999999);
+					return self.getRange(0, 99999999999999);
 				},
 				getRange: argsToOptions(["start", "end"], function (options) {
 					const start = Math.max(0, options.start || 0);
@@ -60,28 +60,7 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 					while (offset > -1) {
 						const resultSlice = resultSet
 							.getRange({ start: start + offset, end: start + offset + 1000 })
-							.map((row) =>
-								extend(row, () => ({
-									getValue(...args) {
-										if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
-											return row.getValue({
-												name: args[0].split(".")[1],
-												join: args[0].split(".")[0],
-											});
-										}
-										return row.getValue(...args);
-									},
-									getText(...args) {
-										if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
-											return row.getText({
-												name: args[0].split(".")[1],
-												join: args[0].split(".")[0],
-											});
-										}
-										return row.getText(...args);
-									},
-								}))
-							);
+							.map((row) => NEXTsearch.convertResult(row));
 						results.splice(start + offset, resultSlice.length, ...resultSlice);
 						if (resultSlice.length !== 1000) {
 							const offsetEnd = start + offset + resultSlice.length;
@@ -93,6 +72,35 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 					}
 					return results.slice(start, end);
 				}),
+			}));
+		},
+		convertResult(result) {
+			return extend(result, () => ({
+				getValue(...args) {
+					if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
+						return result.getValue({
+							name: args[0].split(".")[1],
+							join: args[0].split(".")[0],
+						});
+					}
+					return result.getValue(...args);
+				},
+				getText(...args) {
+					if (args.length === 1 && typeof args[0] === "string" && args[0].includes(".")) {
+						return result.getText({
+							name: args[0].split(".")[1],
+							join: args[0].split(".")[0],
+						});
+					}
+					return result.getText(...args);
+				},
+				getAllValues() {
+					return Object.fromEntries(
+						Object.entries(result.getAllValues()).map(([key, value]) => {
+							return [key, Array.isArray(value) && value.length === 1 ? value[0] : value];
+						})
+					);
+				},
 			}));
 		},
 	}));

@@ -4,9 +4,10 @@
  */
 define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 	const { extend, argsToOptions } = helpers;
-	return extend(NserverWidget, (BNserverWidget) => ({
+
+	return extend(NserverWidget, (NEXTserverWidget) => ({
 		createForm: argsToOptions(["title", , "hideNavBar"], function (options) {
-			return BNserverWidget.convertForm(NserverWidget.createForm(options));
+			return NEXTserverWidget.convertForm(NserverWidget.createForm(options));
 		}),
 		convertForm(form) {
 			const newForm = extend(form, (newForm) => {
@@ -45,7 +46,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 								options.source = options.options;
 								delete options.options;
 							}
-							const field = BNserverWidget.convertField(form.addField(options));
+							const field = NEXTserverWidget.convertField(form.addField(options));
 							options.breakType && field.updateBreakType(options);
 							options.displayType && field.updateDisplayType(options);
 							options.help && field.setHelpText(options);

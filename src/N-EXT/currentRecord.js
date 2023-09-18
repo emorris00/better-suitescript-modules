@@ -5,14 +5,14 @@
 define(["./helpers.js", "N/currentRecord"], (helpers, NcurrentRecord) => {
 	const { extend } = helpers;
 
-	return extend(NcurrentRecord, () => ({
+	return extend(NcurrentRecord, (NEXTcurrentRecord) => ({
 		get() {
-			return this.convertCurrentRecord(this.__proto__.get());
+			return NEXTcurrentRecord.convertCurrentRecord(NEXTcurrentRecord.__proto__.get());
 		},
 		convertCurrentRecord(currentRecord) {
 			return extend(currentRecord, () => ({
 				getCustomFields() {
-					return JSON.parse(this.getValue("custpage____fields") ?? "[]");
+					return JSON.parse(NEXTcurrentRecord.getValue("custpage____fields") ?? "[]");
 				},
 			}));
 		},

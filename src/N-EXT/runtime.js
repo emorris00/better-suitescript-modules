@@ -3,15 +3,17 @@
  * @author Eric Morris
  */
 define(["./helpers.js", "N/runtime", "N/search", "N/file"], (helpers, Nruntime, search, file) => {
-	return helpers.extend(Nruntime, () => ({
+	const { extend } = helpers;
+
+	return extend(Nruntime, () => ({
 		getCurrentScript() {
-			return helpers.extend(Nruntime.getCurrentScript(), (currentScript) => ({
+			return extend(Nruntime.getCurrentScript(), (self) => ({
 				getFile() {
 					const fileId = search
 						.create({
 							type: "script",
 							columns: ["scriptfile"],
-							filters: [["scriptid", "is", currentScript.id]],
+							filters: [["scriptid", "is", self.id]],
 						})
 						.run()
 						.getRange(0, 1)[0]
