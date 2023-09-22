@@ -10,7 +10,7 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 			["type", , "filters", "columns", "settings", "title", "id", "isPublic", "packageId"],
 			function (options) {
 				return NEXTsearch.convertSearch(Nsearch.create(options));
-			}
+			},
 		),
 		load: argsToOptions(["id", , "type"], function (options) {
 			return NEXTsearch.convertSearch(Nsearch.load(options));
@@ -98,7 +98,7 @@ define(["./helpers.js", "N/search"], (helpers, Nsearch) => {
 					return Object.fromEntries(
 						Object.entries(result.getAllValues()).map(([key, value]) => {
 							return [key, Array.isArray(value) && value.length === 1 ? value[0] : value];
-						})
+						}),
 					);
 				},
 			}));

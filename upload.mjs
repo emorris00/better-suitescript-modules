@@ -36,7 +36,7 @@ async function createFolder(name, parentId) {
 			<q1:name>${name}</q1:name>
 			${!parentId ? "" : `<q1:parent internalId="${parentId}"/>`}
 			</record>
-		</platformMsgs:add>`
+		</platformMsgs:add>`,
 	);
 	const body = await response.text();
 	return body.match(/internalId="(\d+)"/)?.[1] ?? false;
@@ -60,7 +60,7 @@ async function getFolderId(name, parentId) {
 					}
 				</q1:basic>
 			</searchRecord>
-		</platformMsgs:search>`
+		</platformMsgs:search>`,
 	);
 	const body = await response.text();
 	return body.match(/internalId="(\d+)"/)?.[1] ?? false;
@@ -76,7 +76,7 @@ async function uploadFile(fileName, fileContents, folderId) {
 			<q1:content>${fileContents}</q1:content>
 			<q1:folder internalId="${folderId}"/>
 			</record>
-		</platformMsgs:upsert>`
+		</platformMsgs:upsert>`,
 	);
 }
 

@@ -15,7 +15,7 @@ define([], () => {
 	function argsToOptions(args, func) {
 		const required = args.slice(
 			0,
-			args.findIndex((a) => a === undefined)
+			args.findIndex((a) => a === undefined),
 		);
 		const keys = args.filter(Boolean);
 		return function (...args) {

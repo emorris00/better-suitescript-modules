@@ -25,7 +25,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 						],
 						function (options) {
 							return newForm.addField({ ...options, type });
-						}
+						},
 					);
 				}
 				return {
@@ -68,7 +68,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 							fields.push(field.id);
 							fieldsField.defaultValue = JSON.stringify(fields);
 							return field;
-						}
+						},
 					),
 					getFields: function () {
 						return [...fields];
@@ -129,7 +129,7 @@ define(["../helpers.js", "N/ui/serverWidget"], (helpers, NserverWidget) => {
 							NserverWidget.FieldType.PHONE,
 							NserverWidget.FieldType.RADIO,
 							NserverWidget.FieldType.TEXT,
-						].map((type) => [`add${type[0]}${type.slice(1).toLowerCase()}Field`, addFieldFactory(type)])
+						].map((type) => [`add${type[0]}${type.slice(1).toLowerCase()}Field`, addFieldFactory(type)]),
 					),
 				};
 			});
